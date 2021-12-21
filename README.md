@@ -1,4 +1,4 @@
-  # YMGKCloud Projesi
+  # CloudPeta! Projesi
 
 Yazılım Mühendisliği Güncel Konular Dersi için hazırladığımız, cloud projesi.
 
