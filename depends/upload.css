@@ -1,0 +1,142 @@
+* {
+  padding: 0 ;
+  margin: 0 ;
+  list-style: none ;
+  border: 0 ;
+  box-sizing: border-box ;
+  outline: 0 ;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ;
+}
+body {
+  background: #eee !important;
+  overflow-x: hidden;
+}
+.dropzone {
+  width: 500px !important;
+  background: #fff !important;
+  border: 1px solid #ddd !important;
+}
+.dropzone .dropzone-form {
+  height: 80px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: relative !important;
+}
+.dropzone .dropzone-form.active {
+  background-color: rgba(0, 128, 0, 0.15) !important;
+}
+.dropzone .dropzone-form.active p {
+  color: green !important;
+}
+.dropzone .dropzone-form input {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  opacity: 0 !important;
+  cursor: pointer !important;
+}
+.dropzone .dropzone-form p {
+  font-size: 15px !important;
+  color: #999 !important;
+}
+.alert-area .dropzone-result-text {
+  border-top: 1px solid #ddd !important;
+  padding: 15px !important;
+  text-align: center !important;
+  font-size: 14px !important;
+  background: rgba(0, 98, 255, 0.149) !important;
+  color: rgba(0, 98, 255, 1) !important;
+}
+.alert-area .dropzone-result-text:empty {
+  display: none !important;
+}
+.alert-area .dropzone-result-text.success {
+  background: rgba(0, 128, 0, 0.149) !important;
+  color: green !important;
+}
+.alert-area .dropzone-result {
+  border-top: 1px solid #ddd !important;
+}
+.alert-area .dropzone-result:empty {
+  display: none !important;
+}
+.alert-area .dropzone-result .file {
+  display: flex !important;
+  align-items: center !important;
+  padding: 15px 15px 15px 0 !important;
+}
+.alert-area .dropzone-result .file:not(:last-child) {
+  border-bottom: 1px solid #eee !important;
+}
+.alert-area .dropzone-result .file .icon {
+  width: 50px !important;
+  text-align: center !important;
+}
+.alert-area .dropzone-result .file .icon img {
+  max-width: 60% !important;
+}
+.alert-area .dropzone-result .file .file-inner {
+  flex: 1 !important;
+}
+.alert-area .dropzone-result .file .file-inner .title {
+  font-size: 14px !important;
+  color: #444 !important;
+}
+.alert-area .dropzone-result .file .file-inner .bar {
+  height: 6px !important;
+  border-radius: 6px !important;
+  background: #ddd !important;
+  margin-top: 7px !important;
+}
+.alert-area .dropzone-result .file .file-inner .bar span {
+  height: 6px !important;
+  display: block !important;
+  border-radius: 6px !important;
+  background: rebeccapurple;
+}
+.alert-area .dropzone-result .file .file-inner .error-text {
+  font-size: 12px !important;
+  color: red !important;
+  padding-top: 3px !important;
+  display: none !important;
+}
+.alert-area .dropzone-result .file .file-inner .abort-btn {
+  margin-top: 7px !important;
+  background: transparent !important;
+  cursor: pointer !important;
+  color: darkred !important;
+  text-decoration: underline !important;
+  font-size: 12px !important;
+}
+.alert-area .dropzone-result .file.error {
+  background-color: rgba(255, 0, 0, 0.162) !important;
+}
+.alert-area .dropzone-result .file.error .file-inner .error-text {
+  display: block;
+}
+.alert-area .dropzone-result .file.success .file-inner .abort-btn, .alert-area .dropzone-result .file.error .file-inner .abort-btn, .alert-area .dropzone-result .file.current .file-inner .abort-btn, .alert-area .dropzone-result .file.aborted .file-inner .abort-btn {
+  display: none !important;
+}
+.alert-area .dropzone-result .file.aborted {
+  background-color: rgba(255, 166, 0, 0.135) !important;
+}
+
+.dropzone-form p{
+  margin: 0!important;
+}
+
+.alert-area{
+  position: absolute;
+  bottom: 0;
+  z-index: 555;
+  background-color: #a9a9a9;
+  width: 100%;
+}
+
+.page-wrapper{
+  position: relative;
+  height: 100vh;
+}
