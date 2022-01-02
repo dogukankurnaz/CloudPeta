@@ -19,6 +19,16 @@ Yazılım Mühendisliği Güncel Konular Dersi için hazırladığımız, cloud 
 
 * XAMPP Kurulu olmalıdır.
 
+### Ekran Görüntüleri
+
+![](https://i.hizliresim.com/jdjan72.png)
+![](https://i.hizliresim.com/f3hi8fm.png)
+![](https://i.hizliresim.com/3w41qaw.png)
+![](https://i.hizliresim.com/qltvwgw.png)
+![](https://i.hizliresim.com/2pvbie3.png)
+![](https://i.hizliresim.com/drlsu7i.png)
+![](https://i.hizliresim.com/95o6d71.png)
+![](https://i.hizliresim.com/8zdr56n.png)
 
 ## Yardım
 
