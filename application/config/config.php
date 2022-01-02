@@ -24,6 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 $config['base_url'] = 'http://localhost/driver/';
+//$config['base_url'] = 'https://cloudpeta.osmanuslu.com';
 
 /*
 |--------------------------------------------------------------------------

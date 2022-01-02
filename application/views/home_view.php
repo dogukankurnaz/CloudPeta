@@ -9,7 +9,7 @@
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link href="<?=base_url('peta/')?>img/favicon.ico" rel="icon">
+    <link rel="icon" href="<?=base_url('login-temp/')?>images/favicon.ico" type="image/x-icon" />
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

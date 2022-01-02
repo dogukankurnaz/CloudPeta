@@ -9,7 +9,7 @@
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link href="<?=base_url('peta/')?>img/favicon.ico" rel="icon">
+    <link rel="icon" href="<?=base_url('login-temp/')?>images/favicon.ico" type="image/x-icon" />
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,17 +30,49 @@
 
     <!-- Template Stylesheet -->
     <link href="<?=base_url('peta/')?>css/style.css" rel="stylesheet">
+
+    <style>
+        .notify {
+            position: absolute;
+            top: 90px;
+            right: 10px;
+            z-index: 555;
+        }
+    </style>
+
+
 </head>
 
 <body>
-<div class="container-xxl bg-white p-0">
-    <!-- Spinner Start -->
+<div class="container-xxl bg-white p-0" style="position:relative;">
+
+
+    <div class="notify">
+        <?php if ($NOTIFY['msg'] !== null) { ?>
+            <div class="alert alert-<?= $NOTIFY['type'] ?> alert-dismissible text-white d-flex align-items-center" role="alert">
+            <span class="mx-2">
+                <?= match ($NOTIFY['type']) {
+                    'danger' => '<i class="fas fa-exclamation-circle fa-2x"></i>',
+                    'success' => '<i class="fas fa-check-circle fa-2x"></i>',
+                    'warning' => '<i class="fas fa-exclamation-circle fa-2x"></i>',
+                    'info' => '<i class="fas fa-info-circle fa-2x"></i>',
+                } ?>
+            </span>
+                <span><?= $NOTIFY['msg'] ?></span>
+                <button type="button" class="btn-close text-lg py-3 opacity-10" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php } ?>
+    </div>
+
+
+
+<!--     Spinner Start -->
     <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
         <div class="spinner-grow text-primary" style="width: 3rem; height: 3rem;" role="status">
             <span class="sr-only">Loading...</span>
         </div>
     </div>
-    <!-- Spinner End -->
+<!--     Spinner End -->
 
 
     <!-- Navbar & Hero Start -->
@@ -67,9 +99,9 @@
     </div>
     <!-- Navbar & Hero End -->
     <!-- Navbar & Hero End -->
-    </br>
-    </br>
-    </br>
+    <br>
+    <br>
+    <br>
 
 
     <!-- Contact Start -->
@@ -83,29 +115,29 @@
                 <div class="col-lg-7">
                     <div class="wow fadeInUp" data-wow-delay="0.3s">
                         <p class="text-center mb-4">Öneri, şikayet ve istekleriniz için bizimle iletişime geçebilirsiniz.</p>
-                        <form>
+                        <form action="" method="post">
                             <div class="row g-3">
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="name" placeholder="Your Name">
+                                        <input type="text" class="form-control" id="name">
                                         <label for="name">Adınız</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <input type="email" class="form-control" id="email" placeholder="Your Email">
+                                        <input type="email" class="form-control" id="email">
                                         <label for="email">Email Adresiniz</label>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="subject" placeholder="Subject">
+                                        <input type="text" class="form-control" id="subject">
                                         <label for="subject">Konu</label>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-floating">
-                                        <textarea class="form-control" placeholder="Leave a message here" id="message" style="height: 150px"></textarea>
+                                        <textarea class="form-control" id="message" style="height: 150px"></textarea>
                                         <label for="message">Mesaj</label>
                                     </div>
                                 </div>

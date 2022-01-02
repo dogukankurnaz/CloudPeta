@@ -1,7 +1,7 @@
 <?php
 define('FILE_ENCRYPTION_BLOCKS', 10000);
 
-class drive extends CI_Controller
+class Drive extends CI_Controller
 {
     public function __construct()
     {
@@ -15,7 +15,10 @@ class drive extends CI_Controller
                 'USERNAME' => $this->session->userdata('USERNAME'),
                 'MAIL' => $this->session->userdata('MAIL'),
                 'ID' => $this->session->userdata('ID'),
+                'CODE' => $this->session->userdata('authcode'),
             );
+
+
 
         } else {
             redirect(base_url('login'));
@@ -35,7 +38,9 @@ class drive extends CI_Controller
 
     public function index()
     {
-
+        if ($this->USER->CODE !== $this->drive_model->getUserAuth($this->USER->ID)){
+            redirect(base_url('drive/auth'));
+        }
 
         $NOTIFY = array(
             "msg" => $this->session->tempdata('msg'),
@@ -49,9 +54,55 @@ class drive extends CI_Controller
             "NOTIFY" => $NOTIFY,
             "USER" => $this->USER,
             "FILES" => $this->addFileIcon($this->drive_model->getFiles($this->USER->ID)),
+            "AUTH" => true,
         );
 
         $this->load->view('drive_view', $data);
+    }
+
+    public function verification(){
+        $this->session->set_userdata('authcode', $this->input->post('mailcode'));
+//            echo $this->USER->CODE;
+            redirect(base_url('drive'));
+    }
+
+
+    public function auth(){
+
+        $NOTIFY = array(
+            "msg" => $this->session->tempdata('msg'),
+            'type' => $this->session->tempdata('type'),
+        );
+        $this->session->unset_tempdata('msg');
+        $this->session->unset_tempdata('type');
+
+        $data = array(
+            "NOTIFY" => $NOTIFY,
+            "USER" => $this->USER,
+            "FILES" => array(),
+            "AUTH" => false,
+        );
+        $this->load->view('drive_view', $data);
+    }
+
+    public function changepass(){
+        $pass1 = $this->input->post('pass1');
+        $pass2 = $this->input->post('pass2');
+
+        if ($pass1 === $pass2){
+            $pass = md5($pass1);
+
+            $update = $this->drive_model->changepass($this->USER->ID, $pass);
+            if ($update){
+                $this->setNotify('Şifreniz Güncellendi', 'success');
+            }else{
+                $this->setNotify('Şifreniz Güncellenemedi', 'danger');
+            }
+
+        }else{
+            $this->setNotify('Şifreler birbiriyle aynı değildi...', 'danger');
+        }
+        redirect(base_url('drive'));
     }
 
     private function addFileIcon($data)
@@ -85,7 +136,7 @@ class drive extends CI_Controller
     public function loadfile()
     {
         $KEY = md5(uniqid()); // PHP uniqid() fonksiyonu ile 13 haneli key oluşturup bunu md5 ile değişkene aktarıyoruz
-        $path = APPPATH . "..\\drivebase\\" . $this->USER->ID . "\\";
+        $path = APPPATH . "../drivebase/" . $this->USER->ID . "/";
         if (!is_dir($path)) {
             mkdir($path);
         }
@@ -129,7 +180,7 @@ class drive extends CI_Controller
 
         $key = $fileArray['filedecrypt'];
 
-        $path = APPPATH . "..\\drivebase\\" . $this->USER->ID . "\\";
+        $path = APPPATH . "../drivebase/" . $this->USER->ID . "/";
         $fileName = $fileArray['filename'];
         $fileNameEn = "en_" . $fileName;
         $pathEn = $path . $fileNameEn;
@@ -144,7 +195,7 @@ class drive extends CI_Controller
 
     public function delete($id){
         $file = $this->drive_model->getFile($id);
-        $path = APPPATH . "..\\drivebase\\" . $this->USER->ID . "\\";
+        $path = APPPATH . "../drivebase/" . $this->USER->ID . "/";
         unlink($path . "en_" . $file['filename']);
         $this->drive_model->delete($id);
         redirect(base_url('drive'));

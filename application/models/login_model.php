@@ -1,5 +1,5 @@
 <?php
-class login_model extends CI_Model{
+class Login_model extends CI_Model{
     public function __construct()
     {
         parent::__construct();
@@ -14,6 +14,10 @@ class login_model extends CI_Model{
         }
     }
 
+
+    public function setAuthCode($id, $code){
+        $this->db->where('id', $id)->update('uye', array('authcode' => $code));
+    }
 
     public function signup($data){
         return $this->db->insert('uye', $data);
