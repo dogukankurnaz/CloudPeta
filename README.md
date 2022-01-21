@@ -6,6 +6,10 @@ Yazılım Mühendisliği Güncel Konular Dersi için hazırladığımız, cloud 
 
 Çeşitli kurallar çerçevesinde sisteme dosya yükler, dosyayı eğer veriler uyuşursa indirmemize izin verir.
 
+
+## Kullanım Kılavuzu
+[CloudPeta Kullanım Kılavuzu için lütfen tıklayın. ](https://github.com/dogukankurnaz/CloudPeta/blob/main/CloudPeta-Kullanım-Kılavuzu.pdf)
+
 ## Başlarken
 
 ### Gereklilikler

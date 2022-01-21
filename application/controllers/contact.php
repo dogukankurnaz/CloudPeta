@@ -75,7 +75,7 @@ class Contact extends CI_Controller {
 
             //Recipients
             $objMail->setFrom($replyMail, $name);
-            $objMail->addAddress('talhacgdem@gmail.com');     //Add a recipient
+            $objMail->addAddress('cloudpeta@dogukankurnaz.com');     //Add a recipient
 
 
             //Content

@@ -16,7 +16,7 @@ class Login extends CI_Controller
 
 
     }
-
+    //Captcha oluşturup özelliklerini belirliyoruz.-------------------
     private function captcha(){
         $this->load->helper('captcha');
 
@@ -46,9 +46,10 @@ class Login extends CI_Controller
         $this->session->set_userdata('captcha', $cap['word']);
         return array('image' => $cap['image'], 'word' => $cap['word']);
     }
+    //------------------------END--------------------------------------
 
 
-    //sessionlardan bildirimleri çekiyoruz
+    //sessionlardan bildirimleri çekiyoruz------------------------------
     private function setNotify($msg, $type)
     {
         $this->session->set_tempdata('msg', $msg);
@@ -79,20 +80,24 @@ class Login extends CI_Controller
 
         $this->load->view('login_view', $data);
     }
+    //------------------------END--------------------------------------
 
+    //------------------------Sisteme Giriş----------------------------
     public function in()
     {
         $user = $this->input->post('user');
         $pass = $this->input->post('pass');
         $pass = md5($pass);
         $captcha = $this->input->post('captcha');
+        //Kullanıcı bilgilerini ve captchayı alıyoruz.
+        //Kullanıcıcn şifresini MD% şifreleme algoritması ile şifreliyoruz.
 
-        if ($captcha === $this->session->userdata('captcha')){
+        if ($captcha === $this->session->userdata('captcha')){//Captcha kontrolü yapıyoruz.
 
 
-            $account = $this->login_model->verify($user, $pass);
+            $account = $this->login_model->verify($user, $pass);//Kullanıcı bilgilerini kontrol etmek için login_model methoduna verileri gönderiyoruz.
 
-            if ($account) {
+            if ($account) {//Kullanıcı adı ve şifre doğruysa session oluşturup sisteme giriş yapmasını sağlıyoruz.
 
                 $this->session->set_userdata('USERNAME', $account[0]['username']);
                 $this->session->set_userdata('MAIL', $account[0]['mail']);
@@ -102,39 +107,49 @@ class Login extends CI_Controller
 
                 $code = rand(100000, 999999);
                 $this->login_model->setAuthCode($account[0]['id'], $code);
+
+                //Sisteme giriş yapan kullanıcının maili te kseferlik doğrulama kodu gönderiyoruz.
+                //Mailini onaylayan kullanıcı sisteme giriş yapıyor.
                 $this->sendMail($account[0]['mail'], 'CloudPeta Doğrulama Kodunuz', $this->getHTMLmail("CloudPeta doğrulama kodunuz : ", $code));
 
                 redirect(base_url('drive'));
-            } else {
+            } else {//Hatalı ise hata mesajını gösteriyoruz.  
                 $this->setNotify('Yanlış kullanıcı adı veya şifre', 'danger');
                 redirect(base_url('login'));
             }
-        }else{
+        }else{//Captcha yanlış ise hata mesajı gösterioruz.
             $this->setNotify('Yanlış captcha', 'danger');
             redirect(base_url('login'));
         }
     }
+    //------------------------END--------------------------------------
 
+
+    //------------------------Sistemden Çıkış--------------------------
     public function logout()
     {
         $this->session->sess_destroy();
 //        print_r($this->session->all_userdata());
         redirect(base_url('home'));
     }
+    //------------------------END--------------------------------------
 
+
+    //--------------------Üye olma--------------------------------------
     public function signup()
     {
         $captcha = $this->input->post('captcha');
-        if ($captcha === $this->session->userdata('captcha')){
+        if ($captcha === $this->session->userdata('captcha')){//Captcha kontrolü yapıyoruz.
+            //Captcha doğru ise girilen bilgilerle bir kullanıcı oluşturuyoruz.
             $data = array(
                 'username' => $this->input->post('name'),
                 'mail' => $this->input->post('email'),
                 'password' => md5($this->input->post('pass')),
                 're_pass' => md5($this->input->post('re_pass')),
             );
-            if ($data['re_pass'] === $data['password']) {
-                unset($data['re_pass']);
-                $kayit = $this->login_model->signup($data);
+            if ($data['re_pass'] === $data['password']) {//İkili şifre kontrolü yapıyoruz.
+                unset($data['re_pass']);//İkili şifre uyuşuyor ise 2.şifreyi siliyoruz.
+                $kayit = $this->login_model->signup($data);//Kullanıcıyı veri tabanına kaydediyoruz.
                 if ($kayit) {
                     $this->setNotify('Kayıt başarılı. Giriş Yapabilirisiniz', 'success');
                 } else {
@@ -149,18 +164,21 @@ class Login extends CI_Controller
         }
         redirect(base_url('login'));
     }
+    //------------------------END--------------------------------------
 
+
+    //------------------------Şifremi Unuttum--------------------------
     public function forgotpassword(){
 
-        $mail = $this->input->post('mail');
+        $mail = $this->input->post('mail');//Kullanıcının girdiği maili alıyoruz.
 
 
         $checkMail = $this->login_model->checkMail($mail);
-        if ($checkMail){
-            $pass = uniqid();
-            $passMD5 = md5($pass);
+        if ($checkMail){//Böyle bir mail var mı diye kontrol ediyoruz.
+            $pass = uniqid();//13 haneli bir şifre oluşturuyoruz.
+            $passMD5 = md5($pass);//Gönderdiğimiz şifreyi md5 ile şifreliyoruz.
 
-            $update = $this->login_model->forgotpassword($mail, array('password' => $passMD5));
+            $update = $this->login_model->forgotpassword($mail, array('password' => $passMD5));//Md5 ile şifrelediğimiz veri kullanıcının şifresi olarak kaydediyoruz.
 
             if ($update){
                 $this->sendMail($mail, "CloudPeta Şifreniz", $this->getHTMLmail('Şifre değişimi işlemi yaptığınız için sizin için bir şifre oluşturduk.Şifrenizi girdikten sonra kullanıcı bölümünden değiştirebilirsiniz.', $pass));
@@ -173,7 +191,10 @@ class Login extends CI_Controller
 
         redirect(base_url('login'));
     }
+    //------------------------END--------------------------------------
 
+
+    //--------Şifresini unutmuş kullanıcaya mail gönderme--------------
     public function sendMail($mail, $subject, $body){
         $objMail = new PHPMailer(true);
         try {
@@ -205,6 +226,7 @@ class Login extends CI_Controller
             $this->setNotify('Mail gönderilemedi : ' . $objMail->ErrorInfo, 'danger');
         }
     }
+    //------------------------END--------------------------------------
     
     
     
